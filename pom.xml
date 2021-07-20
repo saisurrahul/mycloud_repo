@@ -3,23 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
-	<artifactId>mylastapplication</artifactId>
+	<artifactId>session4-1</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>mule-application</packaging>
+    <packaging>mule</packaging>
 
-	<name>mylastapplication</name>
+	<name>session4-flows Application</name>
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<app.runtime>4.3.0-20210322</app.runtime>
+		<app.runtime>4.3.0-20210119</app.runtime>
 		<mule.maven.plugin.version>3.4.2</mule.maven.plugin.version>
 	</properties>
 
 	<build>
 		<plugins>
-		<plugin>
+		    <plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-app-maven-plugin</artifactId>
 				<version>2.3.2</version>
@@ -32,6 +31,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
+				<extensions>true</extensions>
+				<configuration>
+                    <copyToAppsDirectory>true</copyToAppsDirectory>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -85,35 +88,50 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-				<cloudHubDeployment>
+		        <cloudHubDeployment>
 		            <uri>https://anypoint.mulesoft.com</uri>
-		            <muleVersion>4.3.0</muleVersion>
-		            <username>rahulmunna3</username>
-		            <password>Siddhu@123</password>
-                            <environment>Sandbox</environment>
-		            <applicationName>mylastapplication</applicationName>
-		            <businessGroup>MuleSoft</businessGroup>
-                            <workerType>Micro</workerType>
-                            <workers>1</workers>
+		            <muleVersion>${mule.version}</muleVersion>
+		            <username>${anypoint.username}</username>
+		            <password>${anypoint.password}</password>
+                            <environment>${env}</environment>
+		            <applicationName>${appname}</applicationName>
+		            <businessGroup>${business}</businessGroup>
+                            <workerType>${vCore}</workerType>
+                            <workers>${workers}</workers>
+                            <objectStore>${true}</objectStore>
 		        </cloudHubDeployment>
 				</configuration>
 			</plugin>
-			<plugin>
-    <artifactId>maven-archetype-plugin</artifactId>
-     <version>2.4</version>
-     <dependencies>
-     <dependency>
-          <groupId>org.apache.maven.shared</groupId>
-          <artifactId>maven-invoker</artifactId>
-          <version>2.2</version>
-     </dependency>
-     </dependencies>
-</plugin>
+			
+			<!-- Deploy to Cloudhub -->
+         <plugin>
+            <groupId>org.mule.tools.maven</groupId>
+            <artifactId>mule-maven-plugin</artifactId>
+            <version>2.3.2</version>
+           	<executions>
+               <execution>
+                  <id>deploy</id>
+                  <phase>deploy</phase>
+                  <goals>
+                     <goal>deploy</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+               <skip>true</skip>
+            </configuration>
+         </plugin>			
 		</plugins>
 	</build>
 
 	<dependencies>
-	<dependency>
+	
+	<!-- Xml configuration -->
+		<dependency>
         	<groupId>com.mulesoft.muleesb</groupId>
 			<artifactId>mule-core-ee</artifactId>
 			<version>${mule.version}</version>
@@ -189,30 +207,7 @@
             <version>1.2.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
-        <dependency>
-            <groupId>org.mule.connectors</groupId>
-            <artifactId>mule-http-connector</artifactId>
-            <version>1.5.24</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.mule.connectors</groupId>
-            <artifactId>mule-sockets-connector</artifactId>
-            <version>1.2.1</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-		<dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-apikit-module</artifactId>
-            <version>1.5.1</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-    <groupId>org.mule.tools</groupId>
-    <artifactId>studio-maven-plugin</artifactId>
-    <version>3.4.2</version>
-</dependency>
-    </dependencies>
+	</dependencies>
 
 	<repositories>
           <repository>
@@ -226,9 +221,8 @@
             <name>MuleSoft Releases Repository</name>
             <url>https://repository.mulesoft.org/releases/</url>
             <layout>default</layout>
-            </repository>
+        </repository>
     </repositories>
-        
     <pluginRepositories>
         <pluginRepository>
             <id>mulesoft-releases</id>
