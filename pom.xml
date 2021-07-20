@@ -76,6 +76,11 @@
             <version>1.5.1</version>
             <classifier>mule-plugin</classifier>
         </dependency>
+        <dependency>
+    <groupId>org.mule.tools</groupId>
+    <artifactId>studio-maven-plugin</artifactId>
+    <version>3.4.2</version>
+</dependency>
     </dependencies>
 
 	<repositories>
