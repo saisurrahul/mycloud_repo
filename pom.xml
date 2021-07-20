@@ -40,7 +40,6 @@
 		            <businessGroup>MuleSoft</businessGroup>
                             <workerType>Micro</workerType>
                             <workers>1</workers>
-                            <objectStore>true</objectStore>
 		        </cloudHubDeployment>
 				</configuration>
 			</plugin>
